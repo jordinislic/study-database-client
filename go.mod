@@ -1,4 +1,4 @@
-module jordinislic/study-database-client
+module github.com/jordinislic/study-database-client
 
 go 1.20
 
