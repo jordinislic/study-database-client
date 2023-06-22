@@ -1,9 +1,17 @@
 package ContactClient
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/jordinislic/utilities/utilities/ClientJordi"
 )
+
+type Contact struct {
+	Id      int
+	Name    string
+	Surname string
+	Number  string
+}
 
 type ContactClient struct {
 	cl ClientJordi.ClientJordi
@@ -16,50 +24,83 @@ func New(url string) ContactClient {
 }
 
 func (b ContactClient) List() {
-	err := b.cl.Get("/contacts")
+	resp := b.cl.Get("/contacts")
+	jsonData := b.cl.GetBodyResp(resp)
+
+	ContactResp := []Contact{}
+	err := json.Unmarshal(jsonData, &ContactResp)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
+	fmt.Println(ContactResp)
 }
 
 func (b ContactClient) Get(name string, surname string) {
 	var variables []string
 	variables = append(variables, name)
 	variables = append(variables, surname)
-	err := b.cl.GetWithVariables("/contacts", variables)
+	resp := b.cl.GetWithVariables("/contacts", variables)
+	jsonData := b.cl.GetBodyResp(resp)
+
+	ContactResp := Contact{}
+	err := json.Unmarshal(jsonData, &ContactResp)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
+	fmt.Println(ContactResp)
 }
 
 func (b ContactClient) GetName(name string) {
 	var variables []string
 	variables = append(variables, name)
-	err := b.cl.GetWithVariables("/contacts", variables)
+	resp := b.cl.GetWithVariables("/contacts", variables)
+	jsonData := b.cl.GetBodyResp(resp)
+
+	ContactResp := []Contact{}
+	err := json.Unmarshal(jsonData, &ContactResp)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
+	fmt.Println(ContactResp)
 }
 
 func (b ContactClient) GetSurname(surname string) {
 	var variables []string
 	variables = append(variables, surname)
-	err := b.cl.GetWithVariables("/contacts", variables)
+	resp := b.cl.GetWithVariables("/contacts", variables)
+	jsonData := b.cl.GetBodyResp(resp)
+
+	ContactResp := []Contact{}
+	err := json.Unmarshal(jsonData, &ContactResp)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
+	fmt.Println(ContactResp)
 }
 
 func (b ContactClient) Add(body string) {
-	err := b.cl.Add("/contacts", body)
+	resp := b.cl.Add("/contacts", body)
+	jsonData := b.cl.GetBodyResp(resp)
+
+	ContactResp := Contact{}
+	err := json.Unmarshal(jsonData, &ContactResp)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
+	fmt.Println(ContactResp)
 }
 
 func (b ContactClient) Delete(name string, surname string) {
-	err := b.cl.Delete("/contacts", name, surname)
+	variables := []string{}
+	variables = append(variables, name)
+	variables = append(variables, surname)
+	resp := b.cl.Delete("/contacts", variables)
+	jsonData := b.cl.GetBodyResp(resp)
+
+	ContactResp := []Contact{}
+	err := json.Unmarshal(jsonData, &ContactResp)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
+	fmt.Println(ContactResp)
 }
